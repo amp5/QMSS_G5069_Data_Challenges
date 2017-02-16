@@ -94,10 +94,11 @@
   | Navy| 17.3 | 0.31 |
   | Army | 9.1 | 0.18 |
 
-  * Be very explicit: What are you assuming to generate these computations?
-2. Now you know the data more intimately. Think a little bit more about it, and answer the following questions:
-  * Is this the right metric to look at? Why or why not?
-  * What is the "lethality index" showing explicitly? What is it not showing? What is the definition assuming?
-  * With the same available data, can you think of an alternative way to capture the same construct? Is it "better"?
-  * What additional information would you need to better understand the data?
-  * What additional information could help you better capture the construct behind the "lethality index"
+  * **Be very explicit: What are you assuming to generate these computations?**
+
+**2. Now you know the data more intimately. Think a little bit more about it, and answer the following questions:**
+  * **Is this the right metric to look at? Why or why not?**
+  * **What is the "lethality index" showing explicitly? What is it not showing? What is the definition assuming?**
+  * **With the same available data, can you think of an alternative way to capture the same construct? Is it "better"?**
+  * **What additional information would you need to better understand the data?**
+  * **What additional information could help you better capture the construct behind the "lethality index"**
