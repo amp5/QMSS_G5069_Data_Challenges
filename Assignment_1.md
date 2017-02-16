@@ -93,8 +93,13 @@
   | Federal Police | 2.6 | 0.30 |
   | Navy| 17.3 | 0.31 |
   | Army | 9.1 | 0.18 |
+  
+  Below is a graph that visualizes the percentage change for each metric:
+  
+  ![viz3](https://cloud.githubusercontent.com/assets/5368361/23040760/851cb552-f460-11e6-9941-d079eacb9238.png)
 
   * **Be very explicit: What are you assuming to generate these computations?**
+  I am assuming that the information provided to me is correct and as complete as possible. In calculating the first metric of percent of dead civilians in perfectly lethal evenst I assumed that the number of deaths is only registered civilians and not any organized crime agents or government workers. For the remaining lethality ratios I was assuming that the ratios were focused on all deaths / wounded for the Mexico Overall Ratio, Federal Police deaths / wounded for the Federal Police Ration, Navy deaths / wounded for the Navy Ratio and Army deaths / wounded for the Army Ratio. Since I do not have any information on how many people certain armed groups killed I cannot calculate that particular ratio (which may have been what the original ratios were discussing).
 
 **2. Now you know the data more intimately. Think a little bit more about it, and answer the following questions:**
   * **Is this the right metric to look at? Why or why not?**
