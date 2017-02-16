@@ -12,9 +12,15 @@
 
 1. Can you replicate the 86.1% number? the overall lethality ratio? the ratios for the Federal Police, Navy and Army?
   * Provide a visualization that presents this information neatly.
-    **Graph 1**
+    <p align="left">
+      <b>Graph 1</b>
+    </p>
+    
     ![viz1](https://cloud.githubusercontent.com/assets/5368361/23034613/65c16e0c-f44a-11e6-99d6-3dd31bba13c6.png)
-    **Graph 2**
+    <p align="left">
+      <b>Graph 2</b>
+    </p>
+    
     ![viz2](https://cloud.githubusercontent.com/assets/5368361/23034616/673abb44-f44a-11e6-8529-0119c190a229.png)
   * Please show the exact computations you used to calculate them (most likely than not, you'll need to do some additional munging in the data to get there)
     <br>
