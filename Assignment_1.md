@@ -10,8 +10,10 @@
 </p>
 
 
-1. Can you replicate the 86.1% number? the overall lethality ratio? the ratios for the Federal Police, Navy and Army?
-  * Provide a visualization that presents this information neatly.
+**1. Can you replicate the 86.1% number? the overall lethality ratio? the ratios for the Federal Police, Navy and Army?**
+  <br>
+  I could not replicate the 86.1% number, the overall lethality ratio or the ratios for the Federal Police, Navy and Army exactly. I believe this is because either 1) the data we have is incomplete or 2) the calculations for these numbers was not made transparent so we have no way of replicating these numbers exactly. As a result we can only calculate what we believe are similar calculations with hopefully the same assumtptions. 
+  * **Provide a visualization that presents this information neatly.**
     <p align="left">
       <b>Graph 1</b>
     </p>
@@ -22,8 +24,9 @@
     </p>
     
     ![viz2](https://cloud.githubusercontent.com/assets/5368361/23034616/673abb44-f44a-11e6-8529-0119c190a229.png)
-  * Please show the exact computations you used to calculate them (most likely than not, you'll need to do some additional munging in the data to get there)
+  * **Please show the exact computations you used to calculate them (most likely than not, you'll need to do some additional munging in the data to get there)**
     <br>
+    
     **Code for "Percent of Civilians Killed in Events of Perfect Lethality"**
     ```r
     data_1 <- fullData[c("event.id", "total.people.dead", "civilian.dead", "total.people.wounded", "civilian.wounded")]
@@ -40,6 +43,7 @@
       theme_classic() +
       theme(plot.title = element_text(hjust = 0.5))
     ```
+    
     **Code for "Lethality Ratio for Various Groups"**
     ```r
       (num_dead_total <- sum(fullData$total.people.dead))
@@ -76,7 +80,20 @@
         geom_text( size = 4, hjust=-0.2, vjust=-0.2) +
         theme(plot.title = element_text(hjust = 0.5))
     ```
-  * If you could not replicate them, please show why and the difference relative to your own computations (also, include a neat graph that summarizes this)
+  * **If you could not replicate them, please show why and the difference relative to your own computations (also, include a neat graph that summarizes this)**
+ 
+ The reason I could not replicate the 86.1% precisely is because I was not given the exact calculation that researchers used to come up with this percentage. I assumed that the calculation would be *the number of civilian deaths in perfect lethality / total number of civilian deaths* If that calculation is correct the actual numbers that we were provided were 101/376 =  26.9%
+ 
+ The lethality rates were also ratios that I could not replicate exactly. The quote provided to us for this exercise did not specifically define how the ratios were calculated and since we only have the numbers for how many different groups of people were killed and not who killed whom, I cannot calculate the lethality ratio of how many civilians the Navy or the Federal Police killed. Thus my ratio results are much smaller that the original calculation. For the Federal Police, Navy and Army this makes sense given what we know from the data - that as time increased these armed forced spent more time and resources training and therefore became better at killing and less likely to die than to be wounded. 
+  
+  | Metric        | Original Calculation| Updates Calculation|
+  | ------------- |:-------:| -----:|
+  | % of dead civilians in perfect lethality events  | 86.1% | 26.9% |
+  | Mexico Overall  | 2.6  | 1.44 |
+  | Federal Police | 2.6 | 0.30 |
+  | Navy| 17.3 | 0.31 |
+  | Army | 9.1 | 0.18 |
+
   * Be very explicit: What are you assuming to generate these computations?
 2. Now you know the data more intimately. Think a little bit more about it, and answer the following questions:
   * Is this the right metric to look at? Why or why not?
