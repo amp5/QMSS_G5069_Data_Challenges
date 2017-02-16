@@ -12,11 +12,13 @@
 
 1. Can you replicate the 86.1% number? the overall lethality ratio? the ratios for the Federal Police, Navy and Army?
   * Provide a visualization that presents this information neatly.
+    **Graph 1**
     ![viz1](https://cloud.githubusercontent.com/assets/5368361/23034613/65c16e0c-f44a-11e6-99d6-3dd31bba13c6.png)
+    **Graph 2**
     ![viz2](https://cloud.githubusercontent.com/assets/5368361/23034616/673abb44-f44a-11e6-8529-0119c190a229.png)
   * Please show the exact computations you used to calculate them (most likely than not, you'll need to do some additional munging in the data to get there)
     <br>
-    Code for "Percent of Civilians Killed in Events of Perfect Lethality"
+    **Code for "Percent of Civilians Killed in Events of Perfect Lethality"**
     ```r
     data_1 <- fullData[c("event.id", "total.people.dead", "civilian.dead", "total.people.wounded", "civilian.wounded")]
 
@@ -32,8 +34,7 @@
       theme_classic() +
       theme(plot.title = element_text(hjust = 0.5))
     ```
-
-    Code for "Lethality Ratio for Various Groups"
+    **Code for "Lethality Ratio for Various Groups"**
     ```r
       (num_dead_total <- sum(fullData$total.people.dead))
       (num_wound_total <- sum(fullData$total.people.wounded))
