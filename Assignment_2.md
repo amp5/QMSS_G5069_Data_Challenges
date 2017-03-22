@@ -3,7 +3,6 @@
 **1. Ask two (2) questions that might help you understand better the dynamics of violence contained on our data set. 
 Apply one algorithm per question and share your insights from each analysis. [50 pts] 
 Remember: a non-finding is also a finding! It tells you whether a question is worth pursuing further or not.**
-
 - **perform the necessary transformations in your data - if any are needed, and explain why you did that**
 - **show the output from your analysis in a consumable form**
 - **be explicit about the limitations of your anaylisis, due to estimation or to the data itself**
@@ -15,69 +14,120 @@ Remember: a non-finding is also a finding! It tells you whether a question is wo
 - **one paragraph that reflects all nuance in your insight**
 - **make sure to also include your code**
 
+Question 1: Can we predict total people dead based on the variables given in our data set?
+My hypothesis is that by looking at the different types of items seized in a confrontation and whether a particular government body participated in a confrontation I might be able to better understand how many people are killed in an event.  My reasoning behind this is that certain types of weapons are more destructive than others and the presence of them in a confrontation might help predict whether an event will have higher or lower death rates. Additionally, one government body might be more effective (or conversely ineffective) than other bodies. Hypothetically speaking, if the navy was the most lethal government body in confrontations, looking at which events had navy participants might help predict the total number of people dead. Government officials, the military and public policy makers who might consider the ethical justifications of future policy measures might benefit from understanding what factors predict the total number of people dead and whether or not certain strategies should be used to combat organized crime based on this relationship. 
 
-Question 1: Can we predict perfect_lethality based on the variables given in our data set?
-To attempt to answer this question I will randomly divide my data into two groups: training data (80%) and test data(20%).
+Before creating my linear I confirm the distribution of the variable ```total.people.dead```.
 
-```r
-# select AllViolenceData_170216.csv
-all_vio <- read.csv(file.choose())
-
-## 80% of the sample size
-bound <- floor((nrow(all_vio)/5)*4)                   #define % of training and test set
-
-all_vio <- all_vio[sample(nrow(all_vio)), ]           #sample rows 
-av_train <- all_vio[1:bound, ]                        #get training set
-av_test <- all_vio[(bound+1):nrow(all_vio), ]         #get test set
-```
-My hypothesis is that by looking at the different types of items seized in a confrontation and whether a particular government body participated in a confrontation I might be able to predict perfect lethality. My reasoning behind this is that certain types of weapons are more destructive than others and the presence of them in a confrontation might help predict whether an event will have perfect lethality. Additionally, one government body might be more lethal than other bodies. Hypothetically speaking, if the navy was the most lethal government body in confrontations, looking at which events had navy participants might help predict perfect lethality. Government officials, the military and public policy makers who might consider the ethical justifications of future policy measures might benefit from understanding what factors  predict perfect lethality and whether or not that should be the focus of the government. Perhaps focusing instead on organized crime dead or wounded might be better than perfect lethality which involves both organized crime members and civilians.
+![](https://cloud.githubusercontent.com/assets/5368361/24215041/dcc2bc76-0f0d-11e7-9c01-6d4014257436.png)
 
 My initial linear model is below:
 
 ```r
-linear <- lm( perfect.lethality ~ afi + army + federal.police + ministerial.police + municipal.police + 
-              navy + other + state.police + long.guns.seized + small.arms.seized + cartridge.sezied + clips.seized +
-              vehicles.seized, data = av_train)
-> summary(linear)
+> summary(lm1)
 
 Call:
-lm(formula = perfect.lethality ~ afi + army + federal.police + 
+lm(formula = total.people.dead ~ afi + army + federal.police + 
     ministerial.police + municipal.police + navy + other + state.police + 
     long.guns.seized + small.arms.seized + cartridge.sezied + 
-    clips.seized + vehicles.seized, data = av_train)
+    clips.seized + vehicles.seized, data = all_vio)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--1.3515 -0.2761 -0.1411  0.4627  1.1520 
+-12.118  -0.966  -0.749   0.337  50.737 
 
 Coefficients:
                      Estimate Std. Error t value Pr(>|t|)    
-(Intercept)         2.761e-01  1.401e-02  19.707  < 2e-16 ***
-afi                -2.897e-02  1.082e-01  -0.268 0.788920    
-army                1.163e-01  1.749e-02   6.650 3.30e-11 ***
-federal.police     -7.492e-02  2.230e-02  -3.360 0.000786 ***
-ministerial.police -1.281e-01  2.569e-02  -4.987 6.37e-07 ***
-municipal.police   -1.742e-01  1.845e-02  -9.442  < 2e-16 ***
-navy                1.068e-01  3.808e-02   2.804 0.005070 ** 
-other              -1.190e-01  3.654e-02  -3.256 0.001140 ** 
-state.police       -1.350e-01  2.442e-02  -5.530 3.40e-08 ***
-long.guns.seized    2.121e-02  2.364e-03   8.974  < 2e-16 ***
-small.arms.seized  -6.037e-03  5.069e-03  -1.191 0.233671    
-cartridge.sezied   -3.227e-05  5.113e-06  -6.311 3.05e-10 ***
-clips.seized        9.851e-05  7.699e-05   1.280 0.200763    
-vehicles.seized     1.859e-03  8.457e-04   2.198 0.027970 *  
+(Intercept)         1.389e+00  6.245e-02  22.240  < 2e-16 ***
+afi                 5.574e-01  5.016e-01   1.111   0.2665    
+army               -4.228e-01  7.753e-02  -5.453 5.16e-08 ***
+federal.police     -5.486e-01  9.911e-02  -5.536 3.25e-08 ***
+ministerial.police -4.597e-01  1.133e-01  -4.056 5.06e-05 ***
+municipal.police   -6.400e-01  8.177e-02  -7.828 5.95e-15 ***
+navy                1.084e-01  1.708e-01   0.635   0.5255    
+other              -1.259e-01  1.598e-01  -0.788   0.4309    
+state.police       -4.915e-01  1.074e-01  -4.577 4.81e-06 ***
+long.guns.seized    1.568e-01  1.026e-02  15.286  < 2e-16 ***
+small.arms.seized  -3.802e-03  2.196e-02  -0.173   0.8626    
+cartridge.sezied   -1.916e-04  2.298e-05  -8.337  < 2e-16 ***
+clips.seized        1.172e-04  3.753e-04   0.312   0.7549    
+vehicles.seized     1.051e-02  4.152e-03   2.531   0.0114 *  
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 0.4169 on 4302 degrees of freedom
-Multiple R-squared:  0.1261,	Adjusted R-squared:  0.1235 
-F-statistic: 47.75 on 13 and 4302 DF,  p-value: < 2.2e-16
+Residual standard error: 2.06 on 5382 degrees of freedom
+Multiple R-squared:  0.08532,	Adjusted R-squared:  0.08311 
+F-statistic: 38.62 on 13 and 5382 DF,  p-value: < 2.2e-16
 ```
 
-First, looking at the F-statistic we can see that 47.75 is statistically significant and tells us that there are relatively good relationships between our predictors and response variables. Looking at the coefficients we can see that the army and number of long guns seized have high positive statistically significant effects on perfect lethality while federal police, ministerial police, municipal police, state police and the number of cartridges seized have high negative statisically significant results. The navy has moderate positive statistical significance while the other armed forces or government entities have a moderate negative statistical significance on perfect lethality. 
+First, looking at the F-statistic we can see that 38.62 is statistically significant and tells us that there are relatively good relationships between our predictors and response variables but that number could be improved. Looking at the coefficients we can see that the army, federal police, ministerial police, municipal police, state police and the seizure of cartridges all have negative statistically significant effects on the total number of people dead. The only highly positive statistically significant coefficient is the number of long guns seized. 
+
+
+The next step in my analysis will be to incorporate interactions in my model since there is the possibility that the variables used above may be interacting with eachother and the effect of one predictor variable on the response variable is different at different values of  other predictor variables. Specifically I will look at the two statistically significant items seized and how they interact with the statistically significant government bodies that effect total people dead.
+
+```r
+> summary(lm2)
+
+Call:
+lm(formula = total.people.dead ~ afi + army + federal.police + 
+    ministerial.police + municipal.police + navy + other + state.police + 
+    long.guns.seized + small.arms.seized + cartridge.sezied + 
+    clips.seized + vehicles.seized + army * long.guns.seized + 
+    army * cartridge.sezied + federal.police * long.guns.seized + 
+    federal.police * cartridge.sezied + ministerial.police * 
+    long.guns.seized + ministerial.police * cartridge.sezied + 
+    municipal.police * long.guns.seized + municipal.police * 
+    cartridge.sezied + state.police * long.guns.seized + state.police * 
+    cartridge.sezied, data = all_vio)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-9.121 -1.045 -0.701  0.301 50.773 
+
+Coefficients:
+                                      Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                          1.342e+00  6.424e-02  20.897  < 2e-16 ***
+afi                                  4.607e-01  4.999e-01   0.922 0.356749    
+army                                -2.975e-01  8.076e-02  -3.684 0.000232 ***
+federal.police                      -6.419e-01  1.048e-01  -6.125 9.73e-10 ***
+ministerial.police                  -4.707e-01  1.182e-01  -3.982 6.91e-05 ***
+municipal.police                    -5.985e-01  8.370e-02  -7.151 9.77e-13 ***
+navy                                -9.017e-02  1.726e-01  -0.523 0.601308    
+other                               -1.159e-01  1.593e-01  -0.727 0.467102    
+state.police                        -4.203e-01  1.117e-01  -3.762 0.000170 ***
+long.guns.seized                     1.769e-01  2.010e-02   8.800  < 2e-16 ***
+small.arms.seized                   -1.604e-03  2.257e-02  -0.071 0.943333    
+cartridge.sezied                     1.473e-04  9.378e-05   1.571 0.116306    
+clips.seized                         2.247e-05  3.772e-04   0.060 0.952505    
+vehicles.seized                      1.043e-02  4.132e-03   2.523 0.011649 *  
+army:long.guns.seized               -4.513e-02  2.138e-02  -2.111 0.034811 *  
+army:cartridge.sezied               -3.274e-04  9.566e-05  -3.423 0.000624 ***
+federal.police:long.guns.seized      1.095e-01  3.111e-02   3.520 0.000435 ***
+federal.police:cartridge.sezied     -4.914e-04  1.298e-04  -3.787 0.000154 ***
+ministerial.police:long.guns.seized  1.658e-02  5.979e-02   0.277 0.781609    
+ministerial.police:cartridge.sezied  2.032e-04  3.961e-04   0.513 0.607997    
+municipal.police:long.guns.seized   -3.534e-02  3.298e-02  -1.072 0.283945    
+municipal.police:cartridge.sezied    1.160e-04  1.897e-04   0.612 0.540704    
+state.police:long.guns.seized       -8.055e-02  3.517e-02  -2.290 0.022049 *  
+state.police:cartridge.sezied        1.585e-04  1.772e-04   0.895 0.371054    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.049 on 5372 degrees of freedom
+Multiple R-squared:  0.09698,	Adjusted R-squared:  0.09311 
+F-statistic: 25.08 on 23 and 5372 DF,  p-value: < 2.2e-16
+``` 
+
+After adding the interactions we see that holding other variables constant, when no long guns are seized and when army personnel, pederal police, ministerial police, municipal policeand state police are involved in a confrontation there continues to be a statistically significant and negative effect on the number of people dead in an event. Additionally when cartridges are seized by the army or the federal police there also appears to be a negative statistically significant effect on the number of people dead. What is interesting however is the positive effect on the number of people dead when long guns are seized by the federal police. Purhaps a closer look at the common practices of the federal police compared to other security forces or government bodies should be looked into. Additionally, other factors such as how many federal police agents present per event would be helpful. Perhaps the more federal police agents there are the higher the death count.  
+
+Some limitations to this model include the fact that you can only ascertain relationships, but never be sure about underlying causal mechanism. Thus we cannot say for certain whether the presence of the federal police in a confrontation causes an increase in total dead or not. There are probably many other factors that might be useful in predicting the total number of dead - either as constitutive terms or constitutive terms with various interaction terms that could provide a more clear understanding of the relationship of perfect lethality and other variables. Another limitation to this model is that there are a large number of events where there were no people killed. 
+
+A vizualiation of this second model is shown below:
+![](https://cloud.githubusercontent.com/assets/5368361/24216223/cdf5c8e2-0f11-11e7-9c54-9541208553b9.png)
 
 
 
+For every additional long gun seized by the federal police, compared to not the federal police, the total number of people dead in an event is on average increased by ~3 deaths.
 
 **2. Formulate two (2) conditional hypotheses that you seek to investigate with the data. One of your hypotheses should 
 condition on two variables (as the example on the slides), and the other should condition on three variables. [50 pts]**
