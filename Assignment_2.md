@@ -14,7 +14,8 @@ Remember: a non-finding is also a finding! It tells you whether a question is wo
 - **one paragraph that reflects all nuance in your insight**
 - **make sure to also include your code**
 
-Question 1: Can we predict total people dead based on the variables given in our data set?
+**Question 1:** Can we predict total people dead based on the variables given in our data set?
+
 My hypothesis is that by looking at the different types of items seized in a confrontation and whether a particular government body participated in a confrontation I might be able to better understand how many people are killed in an event.  My reasoning behind this is that certain types of weapons are more destructive than others and the presence of them in a confrontation might help predict whether an event will have higher or lower death rates. Additionally, one government body might be more effective (or conversely ineffective) than other bodies. Hypothetically speaking, if the navy was the most lethal government body in confrontations, looking at which events had navy participants might help predict the total number of people dead. Government officials, the military and public policy makers who might consider the ethical justifications of future policy measures might benefit from understanding what factors predict the total number of people dead and whether or not certain strategies should be used to combat organized crime based on this relationship. 
 
 Before creating my linear I confirm the distribution of the variable ```total.people.dead```.
@@ -122,12 +123,18 @@ After adding the interactions we see that holding other variables constant, when
 
 Some limitations to this model include the fact that you can only ascertain relationships, but never be sure about underlying causal mechanism. Thus we cannot say for certain whether the presence of the federal police in a confrontation causes an increase in total dead or not. There are probably many other factors that might be useful in predicting the total number of dead - either as constitutive terms or constitutive terms with various interaction terms that could provide a more clear understanding of the relationship of perfect lethality and other variables. Another limitation to this model is that there are a large number of events where there were no people killed. 
 
-A vizualiation of this second model is shown below:
+A vizualiation for my second model is shown below.
+
 ![](https://cloud.githubusercontent.com/assets/5368361/24216223/cdf5c8e2-0f11-11e7-9c54-9541208553b9.png)
 
+**One sentence:** For every additional long gun seized by the federal police the total number of people dead in an event is on average increased by ~3 deaths.
+
+**On paragraph:** When trying to understand the underlying factors for the total number of people dead in confrontations between organized crime and goverment bodies like the miliatry or police force, the  types of weapons seized and who is involved in the confrontation are important. The most important weapon seizure that is positively assoiated to the number of deaths in a confrontation is the long gun -  holding other variables constant, when long guns are seized the total number of people dead is more likely to increase. In particular there is a positive correlation between the federal police seizing long guns and the increase in deaths in confrontations.  
 
 
-For every additional long gun seized by the federal police, compared to not the federal police, the total number of people dead in an event is on average increased by ~3 deaths.
+**Question 2:**
+
+
 
 **2. Formulate two (2) conditional hypotheses that you seek to investigate with the data. One of your hypotheses should 
 condition on two variables (as the example on the slides), and the other should condition on three variables. [50 pts]**
