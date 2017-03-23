@@ -145,6 +145,21 @@ prop.table(table(vio_data$perfect.lethality))
 ```
 Before implementing a random forest algorithm on my dataset, I first created a simple decision tree to look at the probabilities of certain outcomes. 
 
+``` r
+vio_data <- all_vio[c("event.id", "total.people.dead", "state", "afi", "army", "federal.police", "ministerial.police", "municipal.police",  
+                      "navy", "other", "state.police", "long.guns.seized", "small.arms.seized", "cartridge.sezied", "clips.seized",
+                      "vehicles.seized", "perfect.lethality")]
+                      
+vfit <- rpart(perfect.lethality ~ long.guns.seized + afi + army + federal.police + ministerial.police + municipal.police + 
+                navy + other + state.police  + small.arms.seized + cartridge.sezied + clips.seized +
+                vehicles.seized,
+              data=vio_data,
+              method="class")
+              
+fancyRpartPlot(vfit)
+```
+
+
 ![](https://cloud.githubusercontent.com/assets/5368361/24261594/dd786fa6-0fcd-11e7-9040-ae76bb39f83b.png)
 
 
@@ -153,8 +168,18 @@ In the root node we see that events that did not have any long guns seized (sinc
 
 Since decision tree algorithms make decisions on the current node which appear to be the best at the time, but are unable to change their mind as they grow new nodes, are prone to overfitting themselves and are biased to favour factors with many levels, I will switch over to a random forest algorithm to see which variables might be the best predictors for perfect lethality. 
 
+``` r
+set.seed(415)
+vfit2 <- randomForest(as.factor(perfect.lethality) ~ afi + army + federal.police + ministerial.police + municipal.police + 
+                      navy + other + state.police + long.guns.seized + small.arms.seized + cartridge.sezied + clips.seized +
+                      vehicles.seized,
+                    data=vio_data, 
+                    importance=TRUE, 
+                    ntree=500)
+varImpPlot(vfit2)
+```
 
-1![](https://cloud.githubusercontent.com/assets/5368361/24261546/b7e65cb2-0fcd-11e7-9500-8037daf5801f.png)
+![](https://cloud.githubusercontent.com/assets/5368361/24261546/b7e65cb2-0fcd-11e7-9500-8037daf5801f.png)
 
 Fromt the results shown above we can see that long guns seized have the highest accuracy and Gini values which mean that long guns seized is a very predictive variable for perfect lethality and if this variable were taken out of the model this would greatly affect the results of predicting perfect lethality.  
 
