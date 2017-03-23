@@ -181,7 +181,13 @@ varImpPlot(vfit2)
 
 ![](https://cloud.githubusercontent.com/assets/5368361/24261546/b7e65cb2-0fcd-11e7-9500-8037daf5801f.png)
 
-Fromt the results shown above we can see that long guns seized have the highest accuracy and Gini values which mean that long guns seized is a very predictive variable for perfect lethality and if this variable were taken out of the model this would greatly affect the results of predicting perfect lethality.  
+Fromt the results shown above we can see that long guns seized have the highest accuracy and Gini values which mean that long guns seized is a very predictive variable for perfect lethality and if this variable were taken out of the model this would greatly affect the results of predicting perfect lethality.  Some limitations for this analysis include having only so much available data. It would be interesting to look at how many police officers, soldiers, etc. were involved in a specific conflict to see if there are any important predictive variables that this current model is missing. Also one limitation of using random forest models is that there is a limit of 32 levels that random forests in r can digest. I was also curious at looking at how geography factors into this analysis since I imagine that the state and municipality differ greatly. There are currently 735 different municipalities and 32 states. When I tried to run the random forest algorithm using the 32 states my R program crashed multiple times so I wasn't able to run that analysis at this time. I think though as a next step, it would be interesting to look into that further. 
+
+Something that I found interesting is that compared to government bodies, various weapons seized were overall more important predictors of perfect lethality. Having more information on how these variables were calculated and the accuracy of this information would be helpful in pursing this further. Additionally if other categories were made available of items seized in a confrontation perhaps new insight could be found there. 
+
+**One sentence:** Using a random forst algorithm long guns seized is the most important variable in predicting perfect lethality. 
+
+**One paragraph:** When trying to understand the underlying factors for whether a confrontation will result in perfect lethality, the  types of weapons seized appear to be better predictors overall than who is involved in the confrontation are important. The most important weapon seizure is the long gun. Confrontations that involve the afi, other armed forces or government entities and the navy appear to be the worst predictors for perfect lethality. Further research on whether these three groups are still effective in decreasing crime might be interesting to look especially because that might mean that they are still effective while minimizing the loss of human life. 
 
 
 **2. Formulate two (2) conditional hypotheses that you seek to investigate with the data. One of your hypotheses should 
