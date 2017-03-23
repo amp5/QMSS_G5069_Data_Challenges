@@ -210,6 +210,8 @@ This hypothesis is coming from the first model above that long guns seized and t
 
 The first multilinear model below doesn't have any interactions within the model. Without any interactions we can see that the number of civilian wounded is positively associated with the number of civilian deaths (at a statistically significant rate) and that the army and other governmental groups or entities are moderately associated with the number of civilian deaths - negative associate with the army and a positive association with the other groups. 
 
+Given that the number of civilian wounded is highly associated with civilian deaths, adding an interaction with long guns seized with the number of civilian deaths would perhaps increase the number of civilian deaths. Since long guns are the most deadly weapons seized in this datasetm the presence of long guns (by the fact that they have been seized) may mean that the event was more violent and destructive and that civilians are at a higher risk of dying in said events. Thus we would expect that the interaction term would be positive and statistically significant and the marginal effect would be higher than computing this model without the interaction term. 
+
 ``` r
 > lm3 <- lm(civilian.dead ~ long.guns.seized + small.arms.seized + cartridge.sezied + clips.seized +
 +              vehicles.seized + civilian.wounded + afi + army + federal.police + ministerial.police + 
@@ -293,8 +295,16 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 
 Residual standard error: 0.8221 on 5380 degrees of freedom
 Multiple R-squared:  0.06309,	Adjusted R-squared:  0.06048 
-F-statistic: 24.15 on 15 and 5380 DF,  p-value: < 2.2e-16
+F-statistic: 24.15 on 15 and 5380 DF,  p-value: < 2.2e-16 
 ```
+civilian dead = b0 + b1 * long guns seized + b2 * civilian wounded + b3 * long guns seized * civilian wounded + e
+
+              
+marginal effect = b1 + b3 * long guns seized
+                 = 0.009548 - 0.01728 * 1  
+                 = -.007732
+
+standard error = Var(b1)+Var(b3)⋅Z^2+2⋅Z⋅Cov(b1,b3)
 
 
 ``` r
@@ -351,6 +361,15 @@ other                              4.022222e-04  4.085310e-03  2.534228e-04     
 state.police                       3.834300e-04  2.534228e-04  1.837901e-03                     -1.211643e-06
 long.guns.seized:civilian.wounded -2.311232e-06 -5.475496e-06 -1.211643e-06                      7.318016e-06
 ```
+``` r
+> lm4_var <-  0.00016927 + 1 * 1 * 0.000007318 + 2 * 1 * 0.0000010899
+> lm4_var
+[1] 0.0001787678
+> sqrt(lm4_var)
+[1] 0.01337041
+```
+Thus the standard error of the marginal effect is 0.01337041.
+
 
 assumptions
 limitations
