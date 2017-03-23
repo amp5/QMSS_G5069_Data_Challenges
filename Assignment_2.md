@@ -14,7 +14,7 @@ Remember: a non-finding is also a finding! It tells you whether a question is wo
   - **one paragraph that reflects all nuance in your insight**
   - **make sure to also include your code**
 
-**Question 1:** Can we predict total people dead based on the variables given in our data set?
+**Question 1:** Can we predict total people dead based on the variables given in our data set and by using a multilinear regression?
 
 My hypothesis is that by looking at the different types of items seized in a confrontation and whether a particular government body participated in a confrontation I might be able to better understand how many people are killed in an event.  My reasoning behind this is that certain types of weapons are more destructive than others and the presence of them in a confrontation might help predict whether an event will have higher or lower death rates. Additionally, one government body might be more effective (or conversely ineffective) than other bodies. Hypothetically speaking, if the navy was the most lethal government body in confrontations, looking at which events had navy participants might help predict the total number of people dead. Government officials, the military and public policy makers who might consider the ethical justifications of future policy measures might benefit from understanding what factors predict the total number of people dead and whether or not certain strategies should be used to combat organized crime based on this relationship. 
 
@@ -132,8 +132,31 @@ A vizualiation for my second model is shown below.
 **On paragraph:** When trying to understand the underlying factors for the total number of people dead in confrontations between organized crime and goverment bodies like the miliatry or police force, the  types of weapons seized and who is involved in the confrontation are important. The most important weapon seizure that is positively assoiated to the number of deaths in a confrontation is the long gun -  holding other variables constant, when long guns are seized the total number of people dead is more likely to increase. In particular there is a positive correlation between the federal police seizing long guns and the increase in deaths in confrontations.  
 
 
-**Question 2:**
+**Question 2:** Can we predict perfect lethality based on the variables given in our data set using a random forest algorithm?
+My hypothesis is similar to the hypoethesis above in that by looking at the different types of items seized in a confrontation and whether a particular government body participated in a confrontation I might be able to better understand what factors are associated with perfect lethality confrontations. My reasoning behind this is that certain types of weapons are more destructive than others and the presence of them in a confrontation might help predict whether an event will have pefect lethality or not. Additionally, one government body might be more effective (or conversely ineffective) than other bodies. Hypothetically speaking, if the navy was the most lethal government body in confrontations, looking at which events had navy participants might help predict whether a confrontation might have perfect lethality. Government officials, the military and public policy makers who might consider the ethical justifications of future policy measures might benefit from understanding what factors predict perfect lethality and whether or not certain strategies should be used to combat organized crime based on this relationship. Perhaps a different strategy that does not endager the lives of civilians might be more effective.
 
+First looking at the number of confrontations that had perfect lethality we can see that 27.4% had perfect lethality. 
+
+```r
+prop.table(table(vio_data$perfect.lethality))
+
+        0         1 
+0.7255374 0.2744626 
+```
+Before implementing a random forest algorithm on my dataset, I first created a simple decision tree to look at the probabilities of certain outcomes. 
+
+![](https://cloud.githubusercontent.com/assets/5368361/24261594/dd786fa6-0fcd-11e7-9040-ae76bb39f83b.png)
+
+
+In the root node we see that events that did not have any long guns seized (since you cannot seize 0.5 of a gun), the probabiloity that an event would not have perfect lethality is 82%. Then we see that if long guns were seized and the army is not present in a confrontation the event is 64% likely to not have perfect lethality. The next node shows that for events where  long guns were seized, the army was not ino=voled and 3 or more catridges were seized along with less than 3 long guns, the likelihood that an event would not contain perfect lethality is 59%. The last two leaf nodes show us that if long guns were seized, the army was not involved and either 1) 3 or more cartridges were seized and more than 3 long guns were seized or 2) less than 3 cartridges were seized the likelihood of perfect lethality would be 56% or 61% respectively. 
+
+
+Since decision tree algorithms make decisions on the current node which appear to be the best at the time, but are unable to change their mind as they grow new nodes, are prone to overfitting themselves and are biased to favour factors with many levels, I will switch over to a random forest algorithm to see which variables might be the best predictors for perfect lethality. 
+
+
+1![](https://cloud.githubusercontent.com/assets/5368361/24261546/b7e65cb2-0fcd-11e7-9500-8037daf5801f.png)
+
+Fromt the results shown above we can see that long guns seized have the highest accuracy and Gini values which mean that long guns seized is a very predictive variable for perfect lethality and if this variable were taken out of the model this would greatly affect the results of predicting perfect lethality.  
 
 
 **2. Formulate two (2) conditional hypotheses that you seek to investigate with the data. One of your hypotheses should 
