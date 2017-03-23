@@ -204,8 +204,11 @@ condition on two variables (as the example on the slides), and the other should 
   - **one paragraph that reflects all nuance in your insight**
   - **make sure to also include your code**
 
-**Conditional Hypothesis 1:**
+**Conditional Hypothesis 1:** That there is a meaningful relationship between the number of civilian dead and the types of weapons seized as well as the group of armed forces or government entities. Furthermore, this relationship between the number of civilian wounded on the amount og civilian dead if the number of long guns seized were varied.  
 
+This hypothesis is coming from the first model above that long guns seized and the federal police have a meaningful relationship with the total number of people dead. I'm interested in seeing if this is the same for the amount of civilians dead and whether or not further research is warranted on the federal police tactics. 
+
+The first multilinear model below doesn't have any interactions within the model. Without any interactions we can see that the number of civilian wounded is positively associated with the number of civilian deaths (at a statistically significant rate) and that the army and other governmental groups or entities are moderately associated with the number of civilian deaths - negative associate with the army and a positive association with the other groups. 
 
 ``` r
 > lm3 <- lm(civilian.dead ~ long.guns.seized + small.arms.seized + cartridge.sezied + clips.seized +
@@ -248,17 +251,19 @@ Multiple R-squared:  0.05599,	Adjusted R-squared:  0.05353
 F-statistic: 22.79 on 14 and 5381 DF,  p-value: < 2.2e-16
 ```
 
+Once an interaction term is added for civilian wounded and long guns seized we see that the statistically significant coefficients have changed slightly. Civilian wounded still remains as having a positive association with civilian deaths and the army and other still remain slightly significant (negative for the army and positive for the other group). But now we see that there is a statistically significant negative association when long guns are seized and civilian are wounded on the number of civilian deaths. Perhaps in situations like this the government forces are more concerned with seizing weapons than they are in shooting at people? Who knows. But it is an interesting finding to date. 
+
 ``` r 
 > lm4 <- lm(civilian.dead ~ long.guns.seized + small.arms.seized + cartridge.sezied + clips.seized +
 +             vehicles.seized + civilian.wounded + afi + army + federal.police + ministerial.police + 
-+             municipal.police + navy + other + state.police + long.guns.seized * civilian.wounded, data = all_vio)
++             municipal.police + navy + other + state.police + civilian.wounded * long.guns.seized, data = all_vio)
 > summary(lm4)
 
 Call:
 lm(formula = civilian.dead ~ long.guns.seized + small.arms.seized + 
     cartridge.sezied + clips.seized + vehicles.seized + civilian.wounded + 
     afi + army + federal.police + ministerial.police + municipal.police + 
-    navy + other + state.police + long.guns.seized * civilian.wounded, 
+    navy + other + state.police + civilian.wounded * long.guns.seized, 
     data = all_vio)
 
 Residuals:
@@ -346,3 +351,10 @@ other                              4.022222e-04  4.085310e-03  2.534228e-04     
 state.police                       3.834300e-04  2.534228e-04  1.837901e-03                     -1.211643e-06
 long.guns.seized:civilian.wounded -2.311232e-06 -5.475496e-06 -1.211643e-06                      7.318016e-06
 ```
+
+assumptions
+limitations
+
+**One sentence:**
+**One paragraph:**
+
