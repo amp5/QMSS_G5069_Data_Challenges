@@ -203,3 +203,146 @@ condition on two variables (as the example on the slides), and the other should 
   - **one sentence that summarizes your insight**
   - **one paragraph that reflects all nuance in your insight**
   - **make sure to also include your code**
+
+**Conditional Hypothesis 1:**
+
+
+``` r
+> lm3 <- lm(civilian.dead ~ long.guns.seized + small.arms.seized + cartridge.sezied + clips.seized +
++              vehicles.seized + civilian.wounded + afi + army + federal.police + ministerial.police + 
++             municipal.police + navy + other + state.police, data = all_vio)
+> summary(lm3)
+
+Call:
+lm(formula = civilian.dead ~ long.guns.seized + small.arms.seized + 
+    cartridge.sezied + clips.seized + vehicles.seized + civilian.wounded + 
+    afi + army + federal.police + ministerial.police + municipal.police + 
+    navy + other + state.police, data = all_vio)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-4.118 -0.084 -0.039 -0.018 49.797 
+
+Coefficients:
+                     Estimate Std. Error t value Pr(>|t|)    
+(Intercept)         1.015e-01  2.517e-02   4.034 5.56e-05 ***
+long.guns.seized    6.975e-03  4.110e-03   1.697  0.08973 .  
+small.arms.seized   1.063e-02  8.796e-03   1.208  0.22712    
+cartridge.sezied   -1.370e-05  9.207e-06  -1.488  0.13680    
+clips.seized       -8.702e-05  1.503e-04  -0.579  0.56273    
+vehicles.seized    -3.935e-04  1.663e-03  -0.237  0.81299    
+civilian.wounded    2.397e-01  1.447e-02  16.564  < 2e-16 ***
+afi                 1.259e-01  2.009e-01   0.626  0.53103    
+army               -8.927e-02  3.108e-02  -2.872  0.00410 ** 
+federal.police     -5.114e-02  3.970e-02  -1.288  0.19774    
+ministerial.police -2.441e-02  4.540e-02  -0.538  0.59081    
+municipal.police   -6.239e-02  3.276e-02  -1.905  0.05688 .  
+navy               -1.126e-01  6.841e-02  -1.646  0.09984 .  
+other               1.839e-01  6.412e-02   2.868  0.00415 ** 
+state.police       -8.383e-02  4.303e-02  -1.948  0.05142 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.8251 on 5381 degrees of freedom
+Multiple R-squared:  0.05599,	Adjusted R-squared:  0.05353 
+F-statistic: 22.79 on 14 and 5381 DF,  p-value: < 2.2e-16
+```
+
+``` r 
+> lm4 <- lm(civilian.dead ~ long.guns.seized + small.arms.seized + cartridge.sezied + clips.seized +
++             vehicles.seized + civilian.wounded + afi + army + federal.police + ministerial.police + 
++             municipal.police + navy + other + state.police + long.guns.seized * civilian.wounded, data = all_vio)
+> summary(lm4)
+
+Call:
+lm(formula = civilian.dead ~ long.guns.seized + small.arms.seized + 
+    cartridge.sezied + clips.seized + vehicles.seized + civilian.wounded + 
+    afi + army + federal.police + ministerial.police + municipal.police + 
+    navy + other + state.police + long.guns.seized * civilian.wounded, 
+    data = all_vio)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-4.810 -0.088 -0.034 -0.016 49.413 
+
+Coefficients:
+                                    Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                        8.828e-02  2.516e-02   3.509 0.000454 ***
+long.guns.seized                   9.548e-03  4.114e-03   2.321 0.020337 *  
+small.arms.seized                  1.238e-02  8.768e-03   1.412 0.157975    
+cartridge.sezied                  -1.723e-05  9.190e-06  -1.875 0.060888 .  
+clips.seized                      -9.926e-05  1.498e-04  -0.663 0.507585    
+vehicles.seized                   -3.507e-04  1.657e-03  -0.212 0.832418    
+civilian.wounded                   2.878e-01  1.626e-02  17.695  < 2e-16 ***
+afi                                1.390e-01  2.002e-01   0.694 0.487622    
+army                              -8.110e-02  3.100e-02  -2.617 0.008907 ** 
+federal.police                    -4.713e-02  3.956e-02  -1.191 0.233595    
+ministerial.police                -1.813e-02  4.524e-02  -0.401 0.688578    
+municipal.police                  -5.683e-02  3.265e-02  -1.741 0.081785 .  
+navy                              -1.071e-01  6.817e-02  -1.572 0.116057    
+other                              1.968e-01  6.392e-02   3.079 0.002087 ** 
+state.police                      -8.097e-02  4.287e-02  -1.889 0.058976 .  
+long.guns.seized:civilian.wounded -1.728e-02  2.705e-03  -6.388 1.82e-10 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.8221 on 5380 degrees of freedom
+Multiple R-squared:  0.06309,	Adjusted R-squared:  0.06048 
+F-statistic: 24.15 on 15 and 5380 DF,  p-value: < 2.2e-16
+```
+
+
+``` r
+> vcov(lm4)
+                                    (Intercept) long.guns.seized small.arms.seized cartridge.sezied  clips.seized vehicles.seized
+(Intercept)                        6.330567e-04    -1.753298e-06     -2.021382e-06     1.015047e-09 -5.989694e-08   -1.944040e-06
+long.guns.seized                  -1.753298e-06     1.692746e-05     -1.760065e-05    -2.519424e-08 -1.231568e-07   -4.113869e-07
+small.arms.seized                 -2.021382e-06    -1.760065e-05      7.688237e-05     1.540199e-08 -1.436575e-08   -4.047900e-07
+cartridge.sezied                   1.015047e-09    -2.519424e-08      1.540199e-08     8.444978e-11 -9.351069e-11    1.578826e-10
+clips.seized                      -5.989694e-08    -1.231568e-07     -1.436575e-08    -9.351069e-11  2.243844e-08   -1.091213e-09
+vehicles.seized                   -1.944040e-06    -4.113869e-07     -4.047900e-07     1.578826e-10 -1.091213e-09    2.746397e-06
+civilian.wounded                  -5.529553e-05     2.118344e-06      2.298587e-06    -2.702124e-09 -1.275699e-09    7.852377e-08
+afi                               -9.794971e-05    -3.326296e-05      1.144082e-05     6.193577e-08  3.707773e-07   -1.738705e-06
+army                              -5.709737e-04    -1.982232e-05     -1.257188e-05     1.937498e-08 -7.306057e-08   -8.454049e-07
+federal.police                    -5.005080e-04    -7.206088e-06     -1.929264e-05     1.194326e-08  1.388523e-07    3.475644e-07
+ministerial.police                -5.323513e-04    -2.001050e-06     -8.935895e-06     5.904044e-09  9.497019e-08    9.458083e-07
+municipal.police                  -5.685039e-04     1.028539e-07     -8.911376e-06     2.877553e-09  8.874958e-08    1.434503e-06
+navy                              -5.224726e-04    -1.922941e-05     -1.040582e-05     2.033587e-08  3.485551e-08   -6.032209e-06
+other                             -4.666548e-04    -5.572530e-06     -1.357887e-05     1.430510e-08  1.410058e-07    6.564152e-07
+state.police                      -4.488726e-04    -4.307541e-06     -1.259967e-05     9.041494e-09  1.319402e-07    1.202953e-06
+long.guns.seized:civilian.wounded  5.608383e-06    -1.089943e-06     -7.436970e-07     1.493911e-09  5.184168e-09   -1.813547e-08
+                                  civilian.wounded           afi          army federal.police ministerial.police municipal.police
+(Intercept)                          -5.529553e-05 -9.794971e-05 -5.709737e-04  -5.005080e-04      -5.323513e-04    -5.685039e-04
+long.guns.seized                      2.118344e-06 -3.326296e-05 -1.982232e-05  -7.206088e-06      -2.001050e-06     1.028539e-07
+small.arms.seized                     2.298587e-06  1.144082e-05 -1.257188e-05  -1.929264e-05      -8.935895e-06    -8.911376e-06
+cartridge.sezied                     -2.702124e-09  6.193577e-08  1.937498e-08   1.194326e-08       5.904044e-09     2.877553e-09
+clips.seized                         -1.275699e-09  3.707773e-07 -7.306057e-08   1.388523e-07       9.497019e-08     8.874958e-08
+vehicles.seized                       7.852377e-08 -1.738705e-06 -8.454049e-07   3.475644e-07       9.458083e-07     1.434503e-06
+civilian.wounded                      2.644543e-04  1.177310e-05  2.868671e-05   9.852532e-06       1.553792e-05     1.434213e-05
+afi                                   1.177310e-05  4.007637e-02  5.452041e-05  -1.347118e-04       2.832482e-05     4.866590e-05
+army                                  2.868671e-05  5.452041e-05  9.607473e-04   4.661914e-04       4.846748e-04     5.185505e-04
+federal.police                        9.852532e-06 -1.347118e-04  4.661914e-04   1.565005e-03       4.021689e-04     4.326865e-04
+ministerial.police                    1.553792e-05  2.832482e-05  4.846748e-04   4.021689e-04       2.046792e-03     4.652431e-04
+municipal.police                      1.434213e-05  4.866590e-05  5.185505e-04   4.326865e-04       4.652431e-04     1.065912e-03
+navy                                  1.929900e-05  1.616243e-04  5.109540e-04   4.512328e-04       4.222975e-04     4.818835e-04
+other                                -3.580504e-05 -5.161315e-04  4.269881e-04   3.583191e-04       3.647152e-04     4.239560e-04
+state.police                         -1.108233e-05 -3.714506e-05  4.002345e-04   3.097056e-04       3.545540e-04     3.673776e-04
+long.guns.seized:civilian.wounded    -2.034599e-05 -5.543106e-06 -3.459207e-06  -1.700039e-06      -2.658113e-06    -2.353974e-06
+                                           navy         other  state.police long.guns.seized:civilian.wounded
+(Intercept)                       -5.224726e-04 -4.666548e-04 -4.488726e-04                      5.608383e-06
+long.guns.seized                  -1.922941e-05 -5.572530e-06 -4.307541e-06                     -1.089943e-06
+small.arms.seized                 -1.040582e-05 -1.357887e-05 -1.259967e-05                     -7.436970e-07
+cartridge.sezied                   2.033587e-08  1.430510e-08  9.041494e-09                      1.493911e-09
+clips.seized                       3.485551e-08  1.410058e-07  1.319402e-07                      5.184168e-09
+vehicles.seized                   -6.032209e-06  6.564152e-07  1.202953e-06                     -1.813547e-08
+civilian.wounded                   1.929900e-05 -3.580504e-05 -1.108233e-05                     -2.034599e-05
+afi                                1.616243e-04 -5.161315e-04 -3.714506e-05                     -5.543106e-06
+army                               5.109540e-04  4.269881e-04  4.002345e-04                     -3.459207e-06
+federal.police                     4.512328e-04  3.583191e-04  3.097056e-04                     -1.700039e-06
+ministerial.police                 4.222975e-04  3.647152e-04  3.545540e-04                     -2.658113e-06
+municipal.police                   4.818835e-04  4.239560e-04  3.673776e-04                     -2.353974e-06
+navy                               4.646741e-03  4.022222e-04  3.834300e-04                     -2.311232e-06
+other                              4.022222e-04  4.085310e-03  2.534228e-04                     -5.475496e-06
+state.police                       3.834300e-04  2.534228e-04  1.837901e-03                     -1.211643e-06
+long.guns.seized:civilian.wounded -2.311232e-06 -5.475496e-06 -1.211643e-06                      7.318016e-06
+```
