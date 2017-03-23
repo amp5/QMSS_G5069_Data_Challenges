@@ -370,10 +370,10 @@ long.guns.seized:civilian.wounded -2.311232e-06 -5.475496e-06 -1.211643e-06     
 ```
 Thus the standard error of the marginal effect is 0.01337041.
 
+By using this model I am assuming that the relationship between these variables is linear and continuous and that the predictors are not significantly correlated with one another. Some limitations include the fact that there may be other predictive factors that are correlated with one another that this model does not address and that there may be other data not currently available that might better explain the association with civilian deaths. 
 
-assumptions
-limitations
+**One sentence:** When long guns are seized and civilians are wounded, the number of civilian deaths is more likely to decrease. 
 
-**One sentence:**
-**One paragraph:**
+**One paragraph:** Contrary to my original hypothesis, it appears that the seizure of long guns and higher number of civilian wounded is more likely associated with a decrease in civilian deaths. It may be because the government forces did not need to enact more violence and risk the possibility of higher deaths in general and also higher civilian deaths once long guns were seized.b Additionally we see that conforntations that involve the army are more likely to have lower rates of civlian death whereas other armed forces or government entity confrontations are more likely to have higher rates of civilian death. 
 
+**Hypothesis 2:**
