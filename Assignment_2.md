@@ -1,4 +1,4 @@
-**Data Challenge 2 **
+**Data Challenge 2**
 
 **1. Ask two (2) questions that might help you understand better the dynamics of violence contained on our data set. 
 Apply one algorithm per question and share your insights from each analysis. [50 pts] 
