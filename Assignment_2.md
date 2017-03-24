@@ -204,7 +204,7 @@ condition on two variables (as the example on the slides), and the other should 
   - **one paragraph that reflects all nuance in your insight**
   - **make sure to also include your code**
 
-**Conditional Hypothesis 1:** That there is a meaningful relationship between the number of civilian dead and the types of weapons seized as well as the group of armed forces or government entities. Furthermore, this relationship between the number of civilian wounded on the amount og civilian dead if the number of long guns seized were varied.  
+**Conditional Hypothesis 1:** That there is a meaningful relationship between the number of civilian dead and the types of weapons seized as well as the group of armed forces or government entities. Furthermore, this relationship between the number of civilian wounded on the amount of civilian dead if the number of long guns seized were varied.  
 
 This hypothesis is coming from the first model above that long guns seized and the federal police have a meaningful relationship with the total number of people dead. I'm interested in seeing if this is the same for the amount of civilians dead and whether or not further research is warranted on the federal police tactics. 
 
@@ -376,4 +376,249 @@ By using this model I am assuming that the relationship between these variables 
 
 **One paragraph:** Contrary to my original hypothesis, it appears that the seizure of long guns and higher number of civilian wounded is more likely associated with a decrease in civilian deaths. It may be because the government forces did not need to enact more violence and risk the possibility of higher deaths in general and also higher civilian deaths once long guns were seized.b Additionally we see that conforntations that involve the army are more likely to have lower rates of civlian death whereas other armed forces or government entity confrontations are more likely to have higher rates of civilian death. 
 
-**Hypothesis 2:**
+**Hypothesis 2:** That there is a meaningful relationship between the number of civilian dead and the types of weapons seized as well as the group of armed forces or government entities. Furthermore, this relationship between the number of civilian wounded on the amount of civilian dead if the number of long guns seized were varied and if the army specifically did or did not participate in a confrontation.
+
+Since the interaction model above showed a negative significant relationship between participation of the army in a conflict and the number of civilians dead, I am curious to see if that relationship is maintained if an interaction is added to account for additional variation in my model. 
+
+``` r
+> lm5 <- lm(civilian.dead ~ long.guns.seized + small.arms.seized + cartridge.sezied + clips.seized +
++             vehicles.seized + civilian.wounded + afi + army + federal.police + ministerial.police + 
++             municipal.police + navy + other + state.police + civilian.wounded * long.guns.seized * army, data = all_vio)
+> summary(lm5)
+
+Call:
+lm(formula = civilian.dead ~ long.guns.seized + small.arms.seized + 
+    cartridge.sezied + clips.seized + vehicles.seized + civilian.wounded + 
+    afi + army + federal.police + ministerial.police + municipal.police + 
+    navy + other + state.police + civilian.wounded * long.guns.seized * 
+    army, data = all_vio)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-5.621 -0.084 -0.040 -0.022 49.175 
+
+Coefficients:
+                                         Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                             8.453e-02  2.541e-02   3.326 0.000886 ***
+long.guns.seized                        2.787e-03  5.788e-03   0.482 0.630171    
+small.arms.seized                       1.156e-02  8.764e-03   1.319 0.187243    
+cartridge.sezied                       -1.940e-05  9.337e-06  -2.078 0.037799 *  
+clips.seized                           -1.053e-04  1.495e-04  -0.704 0.481280    
+vehicles.seized                        -3.764e-04  1.654e-03  -0.228 0.820008    
+civilian.wounded                        3.176e-01  1.760e-02  18.042  < 2e-16 ***
+afi                                     1.601e-01  1.999e-01   0.801 0.423159    
+army                                   -7.148e-02  3.263e-02  -2.191 0.028520 *  
+federal.police                         -3.803e-02  3.955e-02  -0.962 0.336342    
+ministerial.police                     -1.433e-02  4.519e-02  -0.317 0.751111    
+municipal.police                       -5.465e-02  3.267e-02  -1.673 0.094450 .  
+navy                                   -8.427e-02  6.874e-02  -1.226 0.220283    
+other                                   2.000e-01  6.382e-02   3.133 0.001737 ** 
+state.police                           -7.342e-02  4.283e-02  -1.714 0.086529 .  
+long.guns.seized:civilian.wounded      -2.360e-02  8.157e-03  -2.893 0.003825 ** 
+civilian.wounded:army                  -2.063e-01  4.645e-02  -4.442  9.1e-06 ***
+long.guns.seized:army                   9.196e-03  5.910e-03   1.556 0.119760    
+long.guns.seized:civilian.wounded:army  1.951e-02  9.076e-03   2.149 0.031640 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.8205 on 5377 degrees of freedom
+Multiple R-squared:  0.06719,	Adjusted R-squared:  0.06407 
+F-statistic: 21.52 on 18 and 5377 DF,  p-value: < 2.2e-16
+```
+
+First it looks as though this might not be the best model as my F-statistic is decreasing compared to lm4 and lm3 so this may be overkill as an analyis. But as expected civilian wounded is still a positive and statistically significant variable in predicting civilian death. Compared to the previous model though it appears the interaction between long gun seizure and civilian wounded becomes less significant and the interaction between the number of civilian wounded and the presence of the army in a confrontation is more negatively significant in predicting civilian deaths. Thus the presence of civilian wounded and the army in a confrontation is more likely to result in a decrease in civilian deaths by -0.02063. If the marginal effect that is calculated from this three-way interaction is positive we will see that conditioning on the presence of the army adds any additional information to this model about the relationship between long gun seizures and civlian wounded on civilian deaths. 
+
+civilian_deaths = b0 + b1 * long guns seized + b2 * civilian wounded + b3 * army + b4 * long guns seized * civilian wounded + b5 * civilian wounded * army + b6 * long guns seized * army + b7 * long guns seized * civilians wounded * army + e
+
+marginal effect = b1 + b4 * long guns seized + b6 * long guns seized * army + b7 * long guns seized * civilians wounded * army
+                 =  0.002787 - 0.02360 + 0.009196 + 0.01951
+                 = .007893
+
+This means that the army is present in a confrontation and there is a long gun seized, each additional civilian wounded is associated with 0.007893 more civilian deaths.        
+
+standard error = Var(b1) + Z^2 * Var(b4) + W^2 * Var(b6) + Z^2 * W^2 * Var(b7) + 2 * Z * Cov(b1, b4) + 2 * W * Cov(b1, b6) + 2 * Z * W *  Cov(b1, b7) + 2 * Z * W * cov(b4, b6) + 2 * W * Z^2 * Cov(b4, b7) + 2 * Z * W^2 * Cov(b6, b7)
+
+Z = civilian wounded
+W = army (0 = no army, 1 = army)
+
+``` r
+> vcov(lm5)
+                                         (Intercept) long.guns.seized small.arms.seized
+(Intercept)                             6.457029e-04    -1.489899e-05     -1.238565e-06
+long.guns.seized                       -1.489899e-05     3.349539e-05     -1.759504e-05
+small.arms.seized                      -1.238565e-06    -1.759504e-05      7.680735e-05
+cartridge.sezied                       -4.992918e-09    -1.845556e-08      1.502895e-08
+clips.seized                           -6.490574e-08    -1.153839e-07     -1.462801e-08
+vehicles.seized                        -1.910662e-06    -4.125045e-07     -3.958900e-07
+civilian.wounded                       -7.076495e-05     4.886111e-06      1.032886e-06
+afi                                    -8.873291e-05    -5.256980e-05      1.054729e-05
+army                                   -6.088572e-04     1.454596e-05     -1.498235e-05
+federal.police                         -4.952923e-04    -1.410751e-05     -1.915674e-05
+ministerial.police                     -5.355368e-04     2.250631e-06     -8.859350e-06
+municipal.police                       -5.753544e-04     7.757630e-06     -9.458976e-06
+navy                                   -4.914471e-04    -5.729694e-05     -9.450110e-06
+other                                  -4.633624e-04    -7.067977e-06     -1.289034e-05
+state.police                           -4.516941e-04    -2.939847e-06     -1.285053e-05
+long.guns.seized:civilian.wounded       9.875133e-06    -8.826540e-06     -3.399548e-06
+civilian.wounded:army                   1.021439e-04    -5.118193e-06      1.218969e-05
+long.guns.seized:army                   1.959769e-05    -2.404255e-05      2.844873e-07
+long.guns.seized:civilian.wounded:army -1.087623e-05     8.668532e-06      2.136688e-06
+                                       cartridge.sezied  clips.seized vehicles.seized
+(Intercept)                               -4.992918e-09 -6.490574e-08   -1.910662e-06
+long.guns.seized                          -1.845556e-08 -1.153839e-07   -4.125045e-07
+small.arms.seized                          1.502895e-08 -1.462801e-08   -3.958900e-07
+cartridge.sezied                           8.718489e-11 -8.970972e-11    1.463983e-10
+clips.seized                              -8.970972e-11  2.235739e-08   -1.098405e-09
+vehicles.seized                            1.463983e-10 -1.098405e-09    2.736161e-06
+civilian.wounded                          -8.135550e-10 -4.646793e-09    3.838809e-08
+afi                                        5.483403e-08  3.597401e-07   -1.759001e-06
+army                                       3.559966e-08 -5.809775e-08   -9.247658e-07
+federal.police                             8.864234e-09  1.336939e-07    3.492221e-07
+ministerial.police                         7.304410e-09  9.501752e-08    9.440357e-07
+municipal.police                           6.551506e-09  9.175371e-08    1.409478e-06
+navy                                       3.645935e-09  1.446274e-08   -5.975919e-06
+other                                      1.263746e-08  1.377647e-07    6.758888e-07
+state.police                               9.700941e-09  1.307545e-07    1.188934e-06
+long.guns.seized:civilian.wounded          2.638300e-09  1.010105e-08   -1.092270e-07
+civilian.wounded:army                     -1.273982e-08  2.013672e-08    3.946043e-07
+long.guns.seized:army                     -9.867463e-09 -1.085962e-08    1.048292e-08
+long.guns.seized:civilian.wounded:army    -4.826298e-10 -6.604596e-09    7.469443e-08
+                                       civilian.wounded           afi          army
+(Intercept)                               -7.076495e-05 -8.873291e-05 -6.088572e-04
+long.guns.seized                           4.886111e-06 -5.256980e-05  1.454596e-05
+small.arms.seized                          1.032886e-06  1.054729e-05 -1.498235e-05
+cartridge.sezied                          -8.135550e-10  5.483403e-08  3.559966e-08
+clips.seized                              -4.646793e-09  3.597401e-07 -5.809775e-08
+vehicles.seized                            3.838809e-08 -1.759001e-06 -9.247658e-07
+civilian.wounded                           3.098643e-04  2.812760e-05  6.918656e-05
+afi                                        2.812760e-05  3.995532e-02  3.207701e-05
+army                                       6.918656e-05  3.207701e-05  1.064671e-03
+federal.police                             1.799933e-05 -1.227209e-04  4.550384e-04
+ministerial.police                         2.440369e-05  2.617712e-05  4.957014e-04
+municipal.police                           2.340727e-05  4.360596e-05  5.408656e-04
+navy                                       2.385990e-05  2.080100e-04  4.306544e-04
+other                                     -3.208478e-05 -5.123000e-04  4.196213e-04
+state.police                               1.213856e-06 -3.350909e-05  4.103808e-04
+long.guns.seized:civilian.wounded         -3.579539e-05  3.920990e-06 -7.124861e-06
+civilian.wounded:army                     -3.099164e-04 -1.341080e-04 -2.736122e-04
+long.guns.seized:army                     -4.859023e-06  2.736610e-05 -5.150888e-05
+long.guns.seized:civilian.wounded:army     3.581701e-05 -1.979033e-06  2.066903e-05
+                                       federal.police ministerial.police municipal.police
+(Intercept)                             -4.952923e-04      -5.355368e-04    -5.753544e-04
+long.guns.seized                        -1.410751e-05       2.250631e-06     7.757630e-06
+small.arms.seized                       -1.915674e-05      -8.859350e-06    -9.458976e-06
+cartridge.sezied                         8.864234e-09       7.304410e-09     6.551506e-09
+clips.seized                             1.336939e-07       9.501752e-08     9.175371e-08
+vehicles.seized                          3.492221e-07       9.440357e-07     1.409478e-06
+civilian.wounded                         1.799933e-05       2.440369e-05     2.340727e-05
+afi                                     -1.227209e-04       2.617712e-05     4.360596e-05
+army                                     4.550384e-04       4.957014e-04     5.408656e-04
+federal.police                           1.564272e-03       4.009778e-04     4.289043e-04
+ministerial.police                       4.009778e-04       2.041959e-03     4.663037e-04
+municipal.police                         4.289043e-04       4.663037e-04     1.067334e-03
+navy                                     4.693230e-04       4.145556e-04     4.623849e-04
+other                                    3.595191e-04       3.647425e-04     4.209367e-04
+state.police                             3.104561e-04       3.557453e-04     3.685900e-04
+long.guns.seized:civilian.wounded       -6.195554e-06      -1.185259e-05    -2.660987e-06
+civilian.wounded:army                   -5.473086e-05      -5.079359e-05    -6.208940e-05
+long.guns.seized:army                    1.011510e-05      -6.023233e-06    -1.152868e-05
+long.guns.seized:civilian.wounded:army   8.251506e-06       1.308355e-05     4.127967e-06
+                                                navy         other  state.police
+(Intercept)                            -4.914471e-04 -4.633624e-04 -4.516941e-04
+long.guns.seized                       -5.729694e-05 -7.067977e-06 -2.939847e-06
+small.arms.seized                      -9.450110e-06 -1.289034e-05 -1.285053e-05
+cartridge.sezied                        3.645935e-09  1.263746e-08  9.700941e-09
+clips.seized                            1.446274e-08  1.377647e-07  1.307545e-07
+vehicles.seized                        -5.975919e-06  6.758888e-07  1.188934e-06
+civilian.wounded                        2.385990e-05 -3.208478e-05  1.213856e-06
+afi                                     2.080100e-04 -5.123000e-04 -3.350909e-05
+army                                    4.306544e-04  4.196213e-04  4.103808e-04
+federal.police                          4.693230e-04  3.595191e-04  3.104561e-04
+ministerial.police                      4.145556e-04  3.647425e-04  3.557453e-04
+municipal.police                        4.623849e-04  4.209367e-04  3.685900e-04
+navy                                    4.725345e-03  4.093617e-04  3.819350e-04
+other                                   4.093617e-04  4.073105e-03  2.534653e-04
+state.police                            3.819350e-04  2.534653e-04  1.834149e-03
+long.guns.seized:civilian.wounded      -5.846248e-06 -1.819034e-05 -6.100733e-06
+civilian.wounded:army                  -4.020114e-05 -1.023866e-05 -8.064419e-05
+long.guns.seized:army                   5.593460e-05  2.809546e-06 -2.144553e-06
+long.guns.seized:civilian.wounded:army  6.396649e-06  1.444232e-05  1.024400e-05
+                                       long.guns.seized:civilian.wounded
+(Intercept)                                                 9.875133e-06
+long.guns.seized                                           -8.826540e-06
+small.arms.seized                                          -3.399548e-06
+cartridge.sezied                                            2.638300e-09
+clips.seized                                                1.010105e-08
+vehicles.seized                                            -1.092270e-07
+civilian.wounded                                           -3.579539e-05
+afi                                                         3.920990e-06
+army                                                       -7.124861e-06
+federal.police                                             -6.195554e-06
+ministerial.police                                         -1.185259e-05
+municipal.police                                           -2.660987e-06
+navy                                                       -5.846248e-06
+other                                                      -1.819034e-05
+state.police                                               -6.100733e-06
+long.guns.seized:civilian.wounded                           6.652938e-05
+civilian.wounded:army                                       3.499887e-05
+long.guns.seized:army                                       8.576130e-06
+long.guns.seized:civilian.wounded:army                     -6.636864e-05
+                                       civilian.wounded:army long.guns.seized:army
+(Intercept)                                     1.021439e-04          1.959769e-05
+long.guns.seized                               -5.118193e-06         -2.404255e-05
+small.arms.seized                               1.218969e-05          2.844873e-07
+cartridge.sezied                               -1.273982e-08         -9.867463e-09
+clips.seized                                    2.013672e-08         -1.085962e-08
+vehicles.seized                                 3.946043e-07          1.048292e-08
+civilian.wounded                               -3.099164e-04         -4.859023e-06
+afi                                            -1.341080e-04          2.736610e-05
+army                                           -2.736122e-04         -5.150888e-05
+federal.police                                 -5.473086e-05          1.011510e-05
+ministerial.police                             -5.079359e-05         -6.023233e-06
+municipal.police                               -6.208940e-05         -1.152868e-05
+navy                                           -4.020114e-05          5.593460e-05
+other                                          -1.023866e-05          2.809546e-06
+state.police                                   -8.064419e-05         -2.144553e-06
+long.guns.seized:civilian.wounded               3.499887e-05          8.576130e-06
+civilian.wounded:army                           2.157827e-03          1.663399e-05
+long.guns.seized:army                           1.663399e-05          3.493079e-05
+long.guns.seized:civilian.wounded:army         -1.701282e-04         -1.026227e-05
+                                       long.guns.seized:civilian.wounded:army
+(Intercept)                                                     -1.087623e-05
+long.guns.seized                                                 8.668532e-06
+small.arms.seized                                                2.136688e-06
+cartridge.sezied                                                -4.826298e-10
+clips.seized                                                    -6.604596e-09
+vehicles.seized                                                  7.469443e-08
+civilian.wounded                                                 3.581701e-05
+afi                                                             -1.979033e-06
+army                                                             2.066903e-05
+federal.police                                                   8.251506e-06
+ministerial.police                                               1.308355e-05
+municipal.police                                                 4.127967e-06
+navy                                                             6.396649e-06
+other                                                            1.444232e-05
+state.police                                                     1.024400e-05
+long.guns.seized:civilian.wounded                               -6.636864e-05
+civilian.wounded:army                                           -1.701282e-04
+long.guns.seized:army                                           -1.026227e-05
+long.guns.seized:civilian.wounded:army                           8.237581e-05
+
+
+> lm5_var <- -0.00001489899 + 0.00006652938 + 0.00003493079 + 0.00008237581 - (2 * 0.000008826540) - 
++   (2 * 0.00002404255) + (2 * 0.000008668532) + (2 * 0.000008576130) - (2 * 0.00006636864) + (2 * 0.00008237581)
+> lm5_var
+[1] 0.0001697025
+> sqrt(lm5_var)
+[1] 0.01302699
+> 
+```
+
+Thus the standard error of the marginal effect is 0.01302699.
+
+Assumptions are similar to those above in that I am assuming that the relationship betweent he variables is linear and that I have all of the information I need to predict civilian deaths in this situation. That assumption is also a limitation of this model since there may be other pieces of information that would provide a better understanding of the predictors of civilian deaths in confrontations. 
+
+**One sentence:** The more civilians wounded in confrontations involving the army are more likely associated with a decrease in civilian deaths. 
+
+**One paragraph** In confrontations involving the army, the more civilians wounded is associated with lower civilian death rates. Adding the seizure of a long gun to confrontations involving the army wit civilians wounded modestly significantly affects civilian deaths at the 0.05% significance level compared to the highly significant level that army conflict and wounded civilians affect civilian death. Furthermore, long guns seized and civilians wounded moderately decreases the rate of civilian deaths while the precence of other army officials or government entities moderately increases the rate of civilian deaths. 
+
